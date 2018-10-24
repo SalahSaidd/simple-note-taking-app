@@ -1,12 +1,17 @@
 package com.said.simplenotetakingapp;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 public class NotesActivity extends AppCompatActivity {
-
+   private EditText titleEditText = null;
+   private DbHelper DbHelper = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class NotesActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.note_title){
+
+
 
         }
                 return true;
