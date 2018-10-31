@@ -47,6 +47,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
+
+
     public long insertNote(SQLiteDatabase sqLiteDatabase, String title, String body) {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
@@ -59,12 +61,11 @@ public class DbHelper extends SQLiteOpenHelper {
         cv.put(COLUMN_CREATED_AT, year + "-" + month + "-" + day);
         cv.put(COLUMN_UPDATED_AT, year + "-" + month + "-" + day);
 
-        long id = sqLiteDatabase.insert(TABLE_NOTES, null, cv);
-        return id;
+        return sqLiteDatabase.insert(TABLE_NOTES, null, cv);
 
     }
 
-    public boolean updateNote(SQLiteDatabase sqLiteDatabase, int id, String title, String body) {
+    public boolean updateNote(SQLiteDatabase sqLiteDatabase, long id, String title, String body) {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
@@ -79,7 +80,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return numberOfRowsAffected > 0;
     }
 
-        public boolean deleteNote(SQLiteDatabase sqLiteDatabase, int id) {
+        public boolean deleteNote(SQLiteDatabase sqLiteDatabase, long id) {
         int numberOfRowsDeleted = sqLiteDatabase.delete(TABLE_NOTES, COLUMN_ID + "=" + id, null);
         return numberOfRowsDeleted > 0;
     }

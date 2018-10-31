@@ -8,15 +8,38 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class NotesActivity extends AppCompatActivity {
-   private EditText titleEditText = null;
-   private DbHelper DbHelper = null;
+    private Intent intent;
+    private String Title, Body;
+    private long id;
+
+    private DbHelper dbHelper = null;
+    private SQLiteDatabase db = null;
+    private EditText titleEditText = null;
+    private EditText bodyEditText = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes);
+
+        intent = getIntent();
+
+        dbHelper = new DbHelper(this);
+        db = dbHelper.getWritableDatabase();
+
+        titleEditText = findViewById(R.id.note_title);
+        bodyEditText = findViewById(R.id.Note);
+
+        Title = intent.getStringExtra("Title");
+        Body = intent.getStringExtra("Body");
+        id = intent.getLongExtra("noteid", 1);
+
+        titleEditText.setText(Title);
+        bodyEditText.setText(Body);
 
     }
 
@@ -31,11 +54,23 @@ public class NotesActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if(id == R.id.note_title){
+        if(id == R.id.Save){
+            if(id == 1) {
+                long id1 = dbHelper.insertNote(db, titleEditText.getText().toString(), bodyEditText.getText().toString());
 
+                Toast.makeText(this, "Note saved!", Toast.LENGTH_SHORT).show();
 
+                this.finish();
+            }
+            else
+            {
+                boolean id2 = dbHelper.updateNote(db, id ,titleEditText.getText().toString(), titleEditText.getText().toString());
+                Toast.makeText(this, "Note updated!", Toast.LENGTH_SHORT).show();
 
+                this.finish();
+            }
         }
-                return true;
+
+        return true;
     }
 }
